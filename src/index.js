@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import PhaserGame from './taipan'
+import './styles/index.css';
 import reportWebVitals from './reportWebVitals';
+import App from "./App";
 
 ReactDOM.render(
     <React.StrictMode>
-        <PhaserGame />
+        <App/>
+
     </React.StrictMode>,
     document.getElementById('root')
 );
