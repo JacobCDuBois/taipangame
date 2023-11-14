@@ -7,6 +7,7 @@ import {GameDataProvider} from "./GameDataContext";
 import MarketScreen from "./components/MarketScreen";
 import TravelScreen from "./components/TravelScreen";
 import BattleScreen from "./components/BattleScreen";
+import GameOverScreen from './components/GameOver'
 
 const App = () => {
     const [currentScreen, setCurrentScreen] = useState('title');
@@ -21,6 +22,7 @@ const App = () => {
             {currentScreen === 'market' && <MarketScreen onNavigate={handleNavigate} />}
             {currentScreen === 'travel' && <TravelScreen onNavigate={handleNavigate} />}
             {currentScreen === 'battle' && <BattleScreen onNavigate={handleNavigate} />}
+            {currentScreen === 'game_over' && <GameOverScreen onNavigate={handleNavigate} />}
         </GameDataProvider>
     );
 };

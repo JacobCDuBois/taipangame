@@ -6,12 +6,13 @@ import {useGameData} from "../GameDataContext";
 
 
 const TitleScreen = ({ onNavigate }) => {
-    const { gameData, setDebt, setWallet } = useGameData();
+    const { gameData, setDebt, setWallet, setPrices, setDate } = useGameData();
 
     const handleStartGame = (debt) => {
         setDebt(debt);
         setWallet(debt); // Set initial wallet value
-        onNavigate('market'); // Request a screen change
+        onNavigate('market');
+        setPrices();// Request a screen change
     };
 
     return (

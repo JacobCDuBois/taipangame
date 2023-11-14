@@ -3,22 +3,32 @@ import { Link } from 'react-router-dom';
 import '../styles/TitleScreen.css';
 import {useGameData} from "../GameDataContext";
 
-const TitleScreen = ({ onNavigate }) => {
-    const { gameData, setDebt, setWallet } = useGameData();
-
+const TravelScreen = ({ onNavigate }) => {
+    const { gameData, setCurr, setNext, } = useGameData();
+    const places = ['Hong Kong', 'Shainghai', 'Nagasaki', 'Saigon','Manila','Singapore', 'Batavia']
     const handleStartGame = (debt) => {
-        setDebt(debt);
-        setWallet(0); // Set initial wallet value
+// Set initial wallet value
         onNavigate('market'); // Request a screen change
     };
+    const handle_loc = (loc) => {
+        if(loc !== gameData.curr_loc){
+            setNext(loc)
+            onNavigate('battle')
+
+        }
+
+    }
 
     return (
         <div>
-            <h1>Welcome to Your Game</h1>
-            <button onClick={() => handleStartGame(4000)}>Start with $4000 Debt</button>
-            <button onClick={() => handleStartGame(0)}>Start with 5 Cannons and No Debt</button>
+            <p>Select a place:</p>
+            {places.map((place, index) => (
+                <button key={index} onClick={() => handle_loc(place)}>
+                    {place}
+                </button>
+            ))}
         </div>
     );
 };
 
-export default TitleScreen;
+export default TravelScreen;

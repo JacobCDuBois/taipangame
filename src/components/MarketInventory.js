@@ -1,60 +1,53 @@
 import React, { useState } from 'react';
+import {useGameData} from "../GameDataContext";
 
 
 
 function MarketInventory(props){
 
-    var ship = props.ship;
-    var money = props.money;
-    var prices = props.prices;
 
-    const [counters, setCounters] = useState({
-        opium:ship.opium,
-        general:ship.general,
-        arms:ship.arms,
-        silk:ship.silk
 
-    });
+    const { gameData, setShip, setWallet } = useGameData();
+
+
 
 
     const handleIncrement = (cargo) => {
-        setCounters((prevCounters) => {
-            if(money > prices[cargo]){
-                props.setWall(prices[cargo])
-                return {
-                    ...prevCounters,
-                    [cargo]: prevCounters[cargo] + 1,
-                };
-            }
+        if(gameData.wallet > gameData.prices[cargo]) {
 
-        });
+
+                setWallet(gameData.wallet - gameData.prices[cargo]);
+                var temp_ship = gameData.ship
+                temp_ship[cargo] = temp_ship[cargo] + 1
+                setShip(temp_ship)
+
+
+        }
     };
 
     const handleDecrement = (cargo) => {
-        setCounters((prevCounters) => {
-            if (prevCounters[cargo]> 0){
-
-            }
-            return {
-                ...prevCounters,
-                [cargo]: prevCounters[cargo] - 1,
-            };
-        });
+        if (gameData.ship[cargo]> 0){
+                setWallet(gameData.wallet + gameData.prices[cargo])
+                var temp_ship = gameData.ship
+                temp_ship[cargo] = temp_ship[cargo] - 1
+                setShip(temp_ship)
+        };
     };
     return (
         <div>
 
 
-            {Object.entries(counters).map(([cargo, value]) => (
+            {Object.entries(gameData.prices).map(([cargo, value]) => (
 
                 <div key={cargo}>
                     <button onClick={() => handleDecrement(cargo)}>-</button>
-                    <span>{cargo}/{value}/{prices[cargo]}</span>
+                    <span>{cargo}/{gameData.ship[cargo]}/{gameData.prices[cargo]}</span>
 
                     <button onClick={() => handleIncrement(cargo)}>+</button>
                 </div>
             ))}
         </div>
     );
+
 }
 export default MarketInventory
