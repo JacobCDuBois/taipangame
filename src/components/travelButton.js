@@ -11,7 +11,8 @@ const TravelButton = ({onTravel}) => {
         return <div/>
     }
     else{
-        return  <button onClick={onTravel}>Travel</button>
+        return  <button className={"Hong_Kong_btns"} onClick={onTravel}>Travel</button>
+
     }
 
 }

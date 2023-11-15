@@ -10,7 +10,7 @@ const GameOver = ({ onNavigate }) => {
 
     return (
         <div>
-
+            GAME OVER
         </div>
     );
 };

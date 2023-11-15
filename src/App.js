@@ -17,39 +17,30 @@ const App = () => {
     };
 
     return (
-        <GameDataProvider>
-            {currentScreen === 'title' && <TitleScreen onNavigate={handleNavigate} />}
-            {currentScreen === 'market' && <MarketScreen onNavigate={handleNavigate} />}
-            {currentScreen === 'travel' && <TravelScreen onNavigate={handleNavigate} />}
-            {currentScreen === 'battle' && <BattleScreen onNavigate={handleNavigate} />}
-            {currentScreen === 'game_over' && <GameOverScreen onNavigate={handleNavigate} />}
-        </GameDataProvider>
+        <div className={"App container"}>
+            <header className="App-header">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css"/>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+            </header>
+            <div className={"row"}>
+                <div className={"col-md-3"}>
+                </div>
+                <div className={"col-md-6 game_container"}>
+                    <GameDataProvider>
+                        {currentScreen === 'title' && <TitleScreen onNavigate={handleNavigate} />}
+                        {currentScreen === 'market' && <MarketScreen onNavigate={handleNavigate} />}
+                        {currentScreen === 'travel' && <TravelScreen onNavigate={handleNavigate} />}
+                        {currentScreen === 'battle' && <BattleScreen onNavigate={handleNavigate} />}
+                        {currentScreen === 'game_over' && <GameOverScreen onNavigate={handleNavigate} />}
+                    </GameDataProvider>
+                </div>
+            </div>
+
+    </div>
     );
 };
 
 
 export default App;
 
-// let data = {
-//     WARE_HOUSE_MAX:10000,
-//     warehouse:{
-//         general:0,
-//         opium:0,
-//         arms:0,
-//         silk:0
-//     },
-//     ship_total:20,
-//     ship:{
-//         canons:0,
-//         general:0,
-//         opium:0,
-//         arms:0,
-//         silk:0
-//     },
-//     bank:0,
-//     debt:0,
-//     wallet:0,
-//     ship_health:100,
-//     date:0
-//
-// }
