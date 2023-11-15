@@ -11,7 +11,24 @@ function MarketInventory(props){
 
 
 
+    const subtractAll = (cargo) =>{
+        var sell_all = gameData.prices[cargo] * gameData.ship[cargo]
+        var temp_ship = gameData.ship
+        temp_ship[cargo] = 0
+        setShip(temp_ship)
+        setWallet(gameData.wallet + sell_all);
+    }
+    const addAll = (cargo) =>{
+        var buy_all = Math.floor(gameData.wallet/gameData.prices[cargo])
+        var cost = buy_all * gameData.prices[cargo]
+        console.log(buy_all)
+        console.log(cost)
+        var temp_ship = gameData.ship
+        temp_ship[cargo] = temp_ship[cargo] + buy_all
+        setWallet(gameData.wallet - cost);
+        setShip(temp_ship)
 
+    }
     const handleIncrement = (cargo) => {
         if(gameData.wallet > gameData.prices[cargo]) {
 
@@ -34,16 +51,62 @@ function MarketInventory(props){
         };
     };
     return (
-        <div>
+        <div className={"container"}>
 
+            <div className={"row"}>
+                <div className={"col-md-8 d-flex justify-content-center"}>
+                    <div className={"row "}>
+                        Cargo
+                    </div>
 
+                </div>
+                <div className={"col-md-2"}>
+                    INV
+                </div>
+                <div className={"col-md-2"}>
+                    PRICE
+                </div>
+
+            </div>
             {Object.entries(gameData.prices).map(([cargo, value]) => (
+                <div>
+                <div className={"row"} key={cargo}>
+                    <div className={"col-md-8"}>
+                        <div className={"row"}>
+                            <div className={"col-md-2"}>
+                                <button className={"buy_buttons"} onClick={() => subtractAll(cargo)}>&#x00AB;</button>
+                            </div>
+                            <div className={"col-md-2"}>
+                                <button  className={"buy_buttons"} onClick={() => handleDecrement(cargo)}>-</button>
+                            </div>
+                            <div className={"col-md-4"}>
+                                <span> {cargo}</span>
 
-                <div key={cargo}>
-                    <button onClick={() => handleDecrement(cargo)}>-</button>
-                    <span>{cargo}/{gameData.ship[cargo]}/{gameData.prices[cargo]}</span>
+                            </div>
+                            <div className={"col-md-2"}>
+                                <button  className={"buy_buttons"} onClick={() => handleIncrement(cargo)}>+</button>
+                            </div>
+                            <div className={"col-md-2"}>
+                                <button  className={"buy_buttons"} onClick={() => addAll(cargo)}>&#x00BB;</button>
+                            </div>
 
-                    <button onClick={() => handleIncrement(cargo)}>+</button>
+                        </div>
+                    </div>
+                    <div className={"col-md-2"}>
+                        <div className={"row"}>
+                            <span>{gameData.ship[cargo]}</span>
+                        </div>
+                    </div>
+                    <div className={"col-md-2"}>
+                        <div className={"row"}>
+                            <span>{gameData.prices[cargo]}</span>
+                        </div>
+                    </div>
+
+
+
+                     </div>
+
                 </div>
             ))}
         </div>

@@ -2,3 +2,32 @@
     text-align: center;
     margin: 100px;
 }
+.health-bar {
+    width: 90%;
+    height: 30px;
+    border: 1px solid #000;
+    position: relative;
+}
+
+.health-fill {
+    height: 100%;
+    background-color: #4caf50; /* Green fill color */
+}
+
+.health-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+.buy_buttons{
+    /*width:50%;*/
+    border: 1px solid #000;
+    border-radius: 10px;
+}
+.Hong_Kong_btns{
+    /*width:70% !important;*/
+    border: 3px solid #000;
+    border-radius: 10px;
+}

@@ -5,3 +5,9 @@ body {
   margin: 0;
   padding: 0;
 }
+.game_container{
+  min-height: 60vh;
+  border: 3px solid #000;
+  border-radius: 10px;
+
+}

@@ -43,7 +43,7 @@ const initialGameData = {
     },
     pirates:false,
     pirate_counter:0,
-    ship_total: 20,
+    ship_total: 30,
     ship: {
         canons: 0,
         general: 0,
@@ -65,7 +65,17 @@ const initialGameData = {
     date: new Date('January 1, 1860'),
     curr_loc:'Hong Kong',
     next_loc:'',
-    curr_menu:0
+    curr_menu:0,
+    report_message:[],
+    encounters:{
+        upgrade:false,
+        canon:false,
+        repair:false,
+        storm:false,
+        battle:false,
+        robbed:false,
+        cops:false
+    }
 };
 const turnEnd  = () => {
     var randDays = Math.floor(Math.random() * (35 - 21 + 1)) + 21;
@@ -120,6 +130,7 @@ const set_prices = () =>{
     }
     return temp_dict
 }
+
 // Action types
 const SET_WAREHOUSE = 'SET_WAREHOUSE';
 const SET_SHIP = 'SET_SHIP';
@@ -138,9 +149,14 @@ const REMOVE_PIRATES = "REMOVE_PIRATES"
 const SET_SHIP_MAX = "SET_SHIP_MAX"
 const SET_MENU = "SET_MENU"
 const RESET_MENU = "RESET_MENU"
+const SET_MESSAGE ="SET_MESSAGE"
+const SET_SHIP_TOTAL = "SET_SHIP_TOTAL"
+const SET_ENCOUNTERS = "SET_ENCOUNTERS"
 // Reducer function
 const gameDataReducer = (state, action) => {
     switch (action.type) {
+        case SET_ENCOUNTERS:
+            return { ...state, encounters: action.payload };
         case SET_WAREHOUSE:
             return { ...state, warehouse: action.payload };
         case SET_SHIP:
@@ -157,6 +173,8 @@ const gameDataReducer = (state, action) => {
             return { ...state, wallet: action.payload };
         case SET_SHIP_HEALTH:
             return { ...state, ship_health: action.payload };
+        case SET_SHIP_TOTAL:
+            return { ...state, ship_total: action.payload };
         case SET_SHIP_MAX:
             return { ...state, ship_health_max: action.payload };
         case SET_DATE:
@@ -180,6 +198,8 @@ const gameDataReducer = (state, action) => {
             return { ...state, curr_menu: action.payload };
         case RESET_MENU:
             return { ...state, curr_menu: 0 };
+        case SET_MESSAGE:
+            return { ...state, report_message: action.payload };
         default:
             return state;
     }
@@ -210,6 +230,7 @@ const GameDataProvider = ({ children }) => {
     const setDate = (date) => dispatch({ type: SET_DATE, payload: date });
     const setCurr = (curr_loc) => dispatch({type: SET_CURR_LOC, payload:curr_loc})
     const setNext = (next_loc) => dispatch({type: SET_NEXT_LOC, payload:next_loc})
+    const setShipTotal = (ship_total) => dispatch({type: SET_SHIP_TOTAL, payload:ship_total})
     const setPrices = (prices) => dispatch({type:SET_PRICES, payload:prices})
     const resetPrices = (prices) => dispatch({type:RESET_PRICES, payload:prices})
     const setPirates = (pirates) => dispatch({type:SET_PIRATES, payload:pirates})
@@ -218,6 +239,8 @@ const GameDataProvider = ({ children }) => {
     const setShipMax = (ship_health_max) => dispatch({type:SET_SHIP_MAX, payload:ship_health_max})
     const setMenu = (curr_menu) => dispatch({type:SET_MENU, payload:curr_menu})
     const resetMenu = (curr_menu) => dispatch({type:RESET_MENU, payload:curr_menu})
+    const setMessage = (report_message) => dispatch({type:SET_MESSAGE, payload:report_message})
+    const setEncounters = (encounters) => dispatch({ type: SET_ENCOUNTERS, payload: encounters });
     const value = {
         gameData,
         setWarehouse,
@@ -236,7 +259,10 @@ const GameDataProvider = ({ children }) => {
         remPirateCounter,
         setShipMax,
         setMenu,
-        resetMenu
+        resetMenu,
+        setShipTotal,
+        setMessage,
+        setEncounters
     };
 
     return <GameDataContext.Provider value={value}>{children}</GameDataContext.Provider>;

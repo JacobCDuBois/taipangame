@@ -6,17 +6,13 @@ import Bank from "./Bank";
 import WareHouseInv from "./WareHouseInv";
 function HongKong(){
     const { gameData, setPirates, setWallet, setPirateCounter, remPirateCounter, setDebt, setMenu, resetMenu } = useGameData();
+    var fee = Math.floor((123)*(gameData.pirate_counter))
     const handle_menu = (menu) =>{
         setMenu(menu)
     }
-    if(!gameData.pirates){
-        if(Math.random()<=.20){
-            setPirates(true)
-            setPirateCounter()
-        }
-    }
+
     const payPirates = () => {
-        var fee = Math.floor((Math.floor(Math.random() * (50 - 35 + 1)) + 35)*(gameData.pirate_counter))
+
         if(gameData.wallet >= fee ){
             setWallet(gameData.wallet - fee)
             setPirates(false)
@@ -34,6 +30,16 @@ function HongKong(){
         }
 
     }
+    var pirate_button = <div></div>
+    if(gameData.pirates === true){
+        pirate_button = (
+            <div className={"row d-flex"}>
+
+                <button className={"Hong_Kong_btns"} onClick={()=>payPirates()}>Pay Pirates {fee}</button>
+
+            </div>
+        )
+    }
     var temp_menu;
     switch(gameData.curr_menu){
         case 0:
@@ -49,24 +55,30 @@ function HongKong(){
             temp_menu = (<MarketInventory></MarketInventory>)
             break;
     }
-    return (
-        <div>
-            <h1>{gameData.curr_loc}</h1>
-            <h1>{gameData.wallet}</h1>
-            <h1>{gameData.date.toLocaleDateString()}</h1>
-            <button onClick={()=>handle_menu(1)}>Open Bank</button>
-            <button onClick={()=>handle_menu(2)}>Open Warehouse</button>
-            <button onClick={()=>handle_menu(0)}>Open Market</button>
-            {temp_menu}
+    if(gameData.curr_loc === "Hong Kong"){
+        return (
+            <div className={"col-md-12"}>
+                <div className={"row d-flex"}>
 
-            {/*{tab}*/}
-            {/* Add market-related components and logic here */}
-            {}
-            {/*<MarketInventory></MarketInventory>*/}
-            {/*<TravelButton onTravel={handleTravel}/>*/}
+                    <button className={"Hong_Kong_btns"} onClick={()=>handle_menu(1)}>Open Bank</button>
+                </div>
+                <div className={"row d-flex"}>
+                    <button className={"Hong_Kong_btns"} onClick={()=>handle_menu(2)}>Open Warehouse</button>
+                </div>
+                <div className={"row d-flex"}>
+
+                    <button className={"Hong_Kong_btns"} onClick={()=>handle_menu(0)}>Open Market</button>
+
+                </div>
+                {pirate_button}
 
 
-        </div>
-    );
+            </div>
+        );
+    }
+    else{
+        return(<div>{gameData.curr_loc}</div>)
+    }
+
 }
 export default HongKong

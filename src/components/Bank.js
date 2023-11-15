@@ -5,103 +5,159 @@ import {useGameData} from "../GameDataContext";
 
 function Bank(){
     const { gameData, setDebt, setWallet, setBank } = useGameData();
+    const [debtInput, setDebtInput] = useState(0);
+    const [bankInput, setBankInput] = useState(0);
 
     const handleIncrement = (acc) => {
-        switch(acc){
-
+        switch (acc) {
             case 1:
-                var debt_diff = document.getElementById('debtInput').value;
-                if(/^\d*$/.test(debt_diff)){
-                    if(gameData.debt<400 && ((debt_diff+gameData.debt)<1000)){
-                        setWallet(gameData.wallet + debt_diff)
-                        setDebt(gameData.debt + (debt_diff*2))
-                    }
+                if (gameData.debt < 400 && debtInput + gameData.debt < 1000) {
+                    setWallet(gameData.wallet + debtInput);
+                    setDebt(gameData.debt + debtInput * 2);
                 }
+                break;
             case 2:
-                var bank_diff = document.getElementById('bankInput').value;
-                if(/^\d*$/.test(bank_diff)){
-                    if(gameData.wallet>=bank_diff){
-                        setWallet(gameData.wallet - bank_diff)
-                        setBank(gameData.bank + bank_diff)
-                    }
+                if (gameData.wallet >= bankInput) {
+                    setWallet(gameData.wallet - bankInput);
+                    setBank(gameData.bank + bankInput);
                 }
-            case 3:
-                var with_diff = document.getElementById('walletInput').value;
-                if(/^\d*$/.test(with_diff)){
-                    if(gameData.bank>=with_diff){
-                        setWallet(gameData.wallet + with_diff)
-                        setBank(gameData.bank - with_diff)
-                    }
-                }
-
+                break;
+            // ...
         }
-
-
     };
 
     const handleDecrement = (acc) => {
-        switch(acc){
-
+        switch (acc) {
             case 1:
-                var debt_diff = document.getElementById('debtInput').value;
-                if(/^\d*$/.test(debt_diff)){
-                    if(gameData.wallet >= debt_diff){
-                        setWallet(gameData.wallet - debt_diff)
-                        setDebt(gameData.debt - (debt_diff))
+                if (gameData.wallet >= debtInput) {
+                    if(debtInput > gameData.debt){
+                        setWallet(gameData.wallet - gameData.debt);
+                        setDebt(0);
                     }
-                    else if(gameData.bank >= debt_diff){
-                        setWallet(gameData.bank - debt_diff)
-                        setDebt(gameData.debt - (debt_diff))
+                    else{
+                        setWallet(gameData.wallet - debtInput);
+                        setDebt(gameData.debt - debtInput);
                     }
-                }
-            case 2:
-                var bank_diff = document.getElementById('bankInput').value;
-                if(/^\d*$/.test(bank_diff)){
-                    if(gameData.bank>=bank_diff){
-                        setWallet(gameData.wallet + bank_diff)
-                        setBank(gameData.bank - bank_diff)
-                    }
-                }
-            // case 3:
-            //     var wall_diff = document.getElementById('walletInput').value;
-            //     if(/^\d*$/.test(wall_diff)){
-            //         if(gameData.bank>=wall_diff){
-            //             setWallet(gameData.wallet + wall_diff)
-            //             setBank(gameData.bank - wall_diff)
-            //         }
-            //     }
 
+                } else if (gameData.bank >= debtInput) {
+                    if(debtInput > gameData.debt){
+                        setBank(gameData.wallet - gameData.debt);
+                        setDebt(0);
+                    }
+                    else{
+                        setBank(gameData.bank - debtInput);
+                        setDebt(gameData.debt - debtInput);
+                    }
+
+                }
+                break;
+            case 2:
+                if (gameData.bank >= bankInput) {
+                    setWallet(gameData.wallet + bankInput);
+                    setBank(gameData.bank - bankInput);
+                }
+                break;
+            // ...
         }
     };
+
     return (
-        <div>
-            <span>debt</span>
-            <button onClick={() => handleDecrement(1)}>
-            -
-            </button>
-            <input type="text" value={0} id="debtInput"/>
+        <div className={"container"}>
+            <div className={"row"}>
+                <div className={"col-mid-3"}>
 
-            <button onClick={() => handleIncrement(1)}>
-            +
-            </button>
+                </div>
+                <div className={"col-mid-6 d-flex justify-content-center"}>
+                    <h1>Debt</h1>
 
-            <span>bank</span>
-            <button onClick={() => handleDecrement(2)}>
-                -
-            </button>
-            <input type="text" value={0} id="bankInput"/>
+                </div>
+                <div className={"col-mid-3"}>
 
-            <button onClick={() => handleIncrement(2)}>
-                +
-            </button>
+                </div>
 
-            <span>wallet</span>
+            </div>
+            <div className={"row"}>
+                <div className={"col-md-3"}>
+                    <div className={"row"}>
+                        <button onClick={() => handleDecrement(1)}>
+                            -
+                        </button>
+                    </div>
+                </div>
+                <div className={"col-md-6"}>
+                    <div className={"row"}>
+                            <input
+                                type="text"
+                                value={debtInput}
+                                id="debtInput"
+                                onChange={(e) => setDebtInput(Number(e.target.value))}
+                            />
+                    </div>
 
-            <input type="text" value={0} id="walletInput"/>
+                </div>
+                <div className={"col-md-3"}>
+                    <div className={"row"}>
+                        <button onClick={() => handleIncrement(1)}>
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className={"row"}>
+                <div className={"col-mid-3"}>
 
-            <button onClick={() => handleIncrement(3)}>
-                +
-            </button>
+                </div>
+                <div className={"col-mid-6 d-flex justify-content-center"}>
+                    <h1>Bank</h1>
+
+                </div>
+                <div className={"col-mid-3"}>
+
+                </div>
+
+            </div>
+            <div className={"row"}>
+                <div className={"col-md-3"}>
+                    <div className={"row"}>
+                        <button onClick={() => handleDecrement(2)}>
+                            -
+                        </button>
+                    </div>
+                </div>
+                <div className={"col-md-6"}>
+                    <div className={"row "}>
+                        <input
+                            type="text"
+                            value={bankInput}
+                            id="bankInput"
+                            onChange={(e) => setBankInput(Number(e.target.value))}
+                        />
+                    </div>
+
+                </div>
+                <div className={"col-md-3"}>
+                    <div className={"row"}>
+                        <button onClick={() => handleIncrement(2)}>
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className={"row"}>
+                <div className={"col-mid-3"}>
+
+                </div>
+                <div className={"col-mid-6 d-flex justify-content-center"}>
+                    <h1>Wallet: {gameData.wallet}</h1>
+
+                </div>
+                <div className={"col-mid-3"}>
+
+                </div>
+
+            </div>
+
+
 
         </div>
     );
